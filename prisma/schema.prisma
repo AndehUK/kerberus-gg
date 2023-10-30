@@ -6,41 +6,49 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
-    // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
+    provider = "mysql"
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+// Used to link between Discord and Minecraft accounts
+model AccountLinkCodes {
+    uuid String @id
+    code String @unique @default(cuid())
+}
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
+enum Pronoun {
+    HE
+    SHE
+    THEY
+    ANY
+    ASK
+}
 
-    @@index([name])
+// Used to link Discord Account to Minecraft Account
+model MinecraftPlayer {
+    uuid     String   @id
+    pronouns Pronoun?
+
+    account Account? @relation(fields: [uuid], references: [minecraft_uuid], onDelete: Cascade)
 }
 
 // Necessary for Next auth
 model Account {
-    id                String  @id @default(cuid())
+    id                String           @id @default(cuid())
     userId            String
     type              String
     provider          String
     providerAccountId String
-    refresh_token     String? // @db.Text
-    access_token      String? // @db.Text
+    refresh_token     String?          @db.Text
+    access_token      String?          @db.Text
     expires_at        Int?
     token_type        String?
     scope             String?
-    id_token          String? // @db.Text
+    id_token          String?          @db.Text
     session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+    minecraft_uuid    String?          @unique
+    minecraft_player  MinecraftPlayer?
 
     @@unique([provider, providerAccountId])
 }
@@ -61,7 +69,6 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-    posts         Post[]
 }
 
 model VerificationToken {
