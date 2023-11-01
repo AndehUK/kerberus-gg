@@ -1,4 +1,4 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { PrismaAdapter } from "next-auth-prisma-adapter";
 import {
   getServerSession,
   type DefaultSession,
@@ -8,6 +8,13 @@ import DiscordProvider from "next-auth/providers/discord";
 
 import { env } from "@/env.mjs";
 import { db } from "@/server/db";
+
+const KerberusPrismaAdapter = PrismaAdapter(db, {
+  userModel: "KerberusUser",
+  accountModel: "KerberusAccount",
+  sessionModel: "KerberusSession",
+  verificationTokenModel: "KerberusVerificationToken",
+});
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -45,7 +52,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   },
-  adapter: PrismaAdapter(db),
+  adapter: KerberusPrismaAdapter,
   providers: [
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,

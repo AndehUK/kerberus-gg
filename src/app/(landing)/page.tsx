@@ -1,5 +1,7 @@
+import { Hero } from "./_components/hero";
+
 const LandingPage = () => {
-  return <div>Landing Page!</div>;
+  return <Hero />;
 };
 
 export default LandingPage;

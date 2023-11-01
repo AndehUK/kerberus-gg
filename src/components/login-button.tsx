@@ -29,21 +29,27 @@ const AvatarButton = ({ session }: { session: Session }) => {
   const imageSrc = session.user.image ? session.user.image : undefined;
 
   return (
-    <div className="nav:gap-x-4 flex items-center">
-      <Avatar>
+    <div className="flex max-w-[100px] items-center pr-2 nav:gap-x-4 min-[985px]:max-w-[175px]">
+      <Avatar className="h-11 w-11">
         <AvatarFallback>{session.user.name?.charAt(0)}</AvatarFallback>
         <AvatarImage src={imageSrc} alt="" />
       </Avatar>
-      <div className="flex flex-col justify-center text-sm">
-        <p className="nav:flex hidden text-white/70">Andehx</p>
-      </div>
+      <p className="truncate">
+        <span className="text-white/70 max-nav:hidden">
+          {session.user.name}
+        </span>
+      </p>
     </div>
   );
 };
 
 const AuthButton = () => {
   return (
-    <Button size="lg" onClick={() => signIn()}>
+    <Button
+      size="lg"
+      className=" text-zinc-50 hover:bg-orange-500/80"
+      onClick={() => signIn()}
+    >
       Log In
     </Button>
   );

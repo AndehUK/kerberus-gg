@@ -17,6 +17,7 @@ module.exports = {
     },
     extend: {
       screens: {
+        xs: "300px",
         nav: "885px",
       },
       colors: {

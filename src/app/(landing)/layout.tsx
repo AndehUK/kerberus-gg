@@ -1,4 +1,4 @@
-import { Navbar } from "./_components/navbar";
+import { Navbar } from "./_components/navigation/navbar";
 import type { LayoutProps } from "@/types/layout";
 
 const LandingLayout = ({ children }: LayoutProps) => {
