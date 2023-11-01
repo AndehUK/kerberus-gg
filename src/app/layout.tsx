@@ -1,7 +1,8 @@
-import { ThemeProvider } from "@/components/providers/theme-provider";
-import "@/styles/globals.css";
-
 import { Inter } from "next/font/google";
+
+import "@/styles/globals.css";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import type { LayoutProps } from "@/types/layout";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,11 +16,7 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/kerby.png" }],
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: LayoutProps) {
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
