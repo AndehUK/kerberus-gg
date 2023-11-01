@@ -11,12 +11,12 @@ datasource db {
 }
 
 // Used to link between Discord and Minecraft accounts
-model AccountLinkCodes {
+model KerberusAccountLinkCodes {
     uuid String @id
     code String @unique @default(cuid())
 }
 
-enum Pronoun {
+enum KerberusPronoun {
     HE
     SHE
     THEY
@@ -25,30 +25,30 @@ enum Pronoun {
 }
 
 // Used to link Discord Account to Minecraft Account
-model MinecraftPlayer {
-    uuid     String   @id
-    pronouns Pronoun?
+model KerberusMinecraftPlayer {
+    uuid     String           @id
+    pronouns KerberusPronoun?
 
     account KerberusAccount? @relation(fields: [uuid], references: [minecraft_uuid], onDelete: Cascade)
 }
 
 // Necessary for Next auth
 model KerberusAccount {
-    id                String           @id @default(cuid())
+    id                String                   @id @default(cuid())
     userId            String
     type              String
     provider          String
     providerAccountId String
-    refresh_token     String?          @db.Text
-    access_token      String?          @db.Text
+    refresh_token     String?                  @db.Text
+    access_token      String?                  @db.Text
     expires_at        Int?
     token_type        String?
     scope             String?
-    id_token          String?          @db.Text
+    id_token          String?                  @db.Text
     session_state     String?
-    user              KerberusUser     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    minecraft_uuid    String?          @unique
-    minecraft_player  MinecraftPlayer?
+    user              KerberusUser             @relation(fields: [userId], references: [id], onDelete: Cascade)
+    minecraft_uuid    String?                  @unique
+    minecraft_player  KerberusMinecraftPlayer?
 
     @@unique([provider, providerAccountId])
 }
