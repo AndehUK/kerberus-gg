@@ -79,4 +79,10 @@ body,
   body {
     @apply bg-background text-foreground;
   }
+  .main-bg {
+    background-image: url("/shine.png");
+  }
+  .store-cta {
+    background-image: url("/staff_heads.png");
+  }
 }
